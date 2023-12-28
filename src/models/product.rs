@@ -1,3 +1,4 @@
+use super::Result;
 use rocket::serde::Serialize;
 
 #[derive(Debug, Default, Clone, Serialize)]
@@ -9,7 +10,7 @@ pub struct Product {
 
 #[async_trait::async_trait]
 pub trait ProductRepo {
-    async fn get_all(&self) -> Vec<Product>;
-    async fn save(&self, product: Product) -> Product;
-    async fn delete(&self, id: u64) -> bool;
+    async fn get_all(&self) -> Result<Vec<Product>>;
+    async fn save(&self, product: Product) -> Result<Product>;
+    async fn delete(&self, id: u64) -> Result<bool>;
 }
