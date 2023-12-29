@@ -1,6 +1,7 @@
 use std::{result, sync::Arc};
 
 use rocket::futures::lock::Mutex;
+use tera::Tera;
 
 use self::product::ProductRepo;
 
@@ -16,4 +17,5 @@ pub type Result<T> = result::Result<T, Error>;
 
 pub struct AppState {
     pub product_repo: Arc<Mutex<dyn ProductRepo + Send>>,
+    pub tera: Arc<Mutex<Tera>>,
 }

@@ -3,8 +3,9 @@ extern crate rocket;
 
 use dotenv::dotenv;
 use models::repo::sqlite;
-use rocket::futures::lock::Mutex;
+use rocket::{fs::FileServer, futures::lock::Mutex};
 use std::sync::Arc;
+use tera::Tera;
 
 use crate::models::AppState;
 
@@ -22,8 +23,12 @@ async fn main() -> Result<(), rocket::Error> {
     rocket::build()
         .manage(AppState {
             product_repo: Arc::from(Mutex::from(product_repo)),
+            tera: Arc::from(Mutex::from(
+                Tera::new("client/views/**/*.html").expect("failed to run tera"),
+            )),
         })
         .mount("/", routes![routes::index::index])
+        .mount("/public", FileServer::from("client/public"))
         .launch()
         .await?;
     Ok(())
