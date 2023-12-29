@@ -17,5 +17,5 @@ pub type Result<T> = result::Result<T, Error>;
 
 pub struct AppState {
     pub product_repo: Arc<Mutex<dyn ProductRepo + Send>>,
-    pub tera: Arc<Mutex<Tera>>,
+    pub tera: Arc<Tera>,
 }

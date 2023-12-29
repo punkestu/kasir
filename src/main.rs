@@ -10,6 +10,7 @@ use tera::Tera;
 use crate::models::AppState;
 
 mod db;
+mod functions;
 mod models;
 mod routes;
 
@@ -23,9 +24,7 @@ async fn main() -> Result<(), rocket::Error> {
     rocket::build()
         .manage(AppState {
             product_repo: Arc::from(Mutex::from(product_repo)),
-            tera: Arc::from(Mutex::from(
-                Tera::new("client/views/**/*.html").expect("failed to run tera"),
-            )),
+            tera: Arc::from(Tera::new("client/views/**/*.tera").expect("failed to run tera")),
         })
         .mount("/", routes![routes::index::index])
         .mount("/public", FileServer::from("client/public"))

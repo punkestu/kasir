@@ -1,10 +1,11 @@
-use crate::models::{product::Product, AppState};
+use crate::{
+    functions::{self, render},
+    models::AppState,
+};
 use rocket::{
     response::{content::RawHtml, Responder},
     State,
 };
-use serde::Serialize;
-use tera::Context;
 
 #[derive(Responder)]
 pub enum Response {
@@ -14,24 +15,13 @@ pub enum Response {
     InternalServerError(String),
 }
 
-#[derive(Serialize, Default)]
-struct IndexViewParam {
-    products: Vec<Product>,
-}
-
 #[get("/")]
 pub async fn index(state: &State<AppState>) -> Response {
     match state.product_repo.lock().await.get_all().await {
         Ok(products) => {
-            let index_view_param = IndexViewParam { products };
-            let view = state
-                .tera
-                .lock()
-                .await
-                .render(
-                    "pages/home.html",
-                    &Context::from_serialize(&index_view_param).unwrap(),
-                )
+            let param = functions::render::HomeParam { products };
+            let view = Some(&state.tera.clone())
+                .map(render::render_home(param))
                 .unwrap();
             Response::Success(RawHtml(view))
         }

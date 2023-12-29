@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.header {
+      @apply w-full bg-blue-500 text-slate-50 px-4 py-2;
+}
+
+.btn-secondary-sm {
+      @apply bg-white text-blue-500 px-2 py-1 rounded-lg font-medium;
+}
+
+.btn-primary-md {
+      @apply bg-blue-500 text-white px-4 py-2 rounded-lg font-medium text-xl;
+}
+
+.qty-btn {
+      @apply bg-blue-500 text-white font-black text-2xl border border-blue-500;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
