@@ -27,6 +27,7 @@ async fn main() -> Result<(), rocket::Error> {
             tera: Arc::from(Tera::new("client/views/**/*.tera").expect("failed to run tera")),
         })
         .mount("/", routes![routes::index::index])
+        .mount("/page", routes![routes::page::products])
         .mount("/public", FileServer::from("client/public"))
         .launch()
         .await?;

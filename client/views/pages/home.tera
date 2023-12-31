@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  {% set title = "home" %} {% include "partials/head.tera" %}
+  {% include "partials/head.tera" %}
   <body>
     {% include "partials/header.tera" %}
-    <input type="text" name="search" id="search" class="w-full border-2 px-2 py-1 text-center" placeholder="Search...">
-    <main class="flex flex-wrap px-4">
-      {% for product in products %}
-      <div class="w-full md:w-1/3 lg:w-1/4 p-2">{% include "partials/product.tera" %}</div>
-      {% endfor %}
-      {% for product in products %}
-      <div class="w-full md:w-1/3 lg:w-1/4 p-2">{% include "partials/product.tera" %}</div>
-      {% endfor %}
-      {% for product in products %}
-      <div class="w-full md:w-1/3 lg:w-1/4 p-2">{% include "partials/product.tera" %}</div>
-      {% endfor %}
-      {% for product in products %}
-      <div class="w-full md:w-1/3 lg:w-1/4 p-2">{% include "partials/product.tera" %}</div>
-      {% endfor %}
-    </main>
-    <div class="sticky bottom-0 w-full flex justify-center items-center h-20 bg-gray-300 bg-opacity-20 backdrop-blur-sm">
+    <input
+      type="text"
+      name="search"
+      id="search"
+      class="w-full border-2 px-2 py-1 text-center"
+      placeholder="Search..."
+      hx-trigger="keyup"
+      hx-get="/page/products"
+      hx-target="main"
+      hx-swap="outerHTML"
+    />
+    {% set products = param.products %}
+    {% include "partials/products.tera" %}
+    <div
+      class="fixed bottom-0 w-full flex justify-center items-center h-20 bg-gradient-to-t from-gray-300 backdrop-blur-sm"
+    >
       <button class="btn-primary-md">Checkout</button>
     </div>
+    <script src="/public/script/functions.js"></script>
+    <script src="/public/script/sideEffects.js"></script>
   </body>
 </html>

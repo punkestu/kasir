@@ -1,5 +1,6 @@
+use super::{InternalServerError, Result};
 use crate::{
-    functions::{self, render},
+    functions::render::{self, HomeParam},
     models::AppState,
 };
 use rocket::{
@@ -11,20 +12,18 @@ use rocket::{
 pub enum Response {
     #[response(status = 200)]
     Success(RawHtml<String>),
-    #[response(status = 500)]
-    InternalServerError(String),
 }
 
 #[get("/")]
-pub async fn index(state: &State<AppState>) -> Response {
+pub async fn index(state: &State<AppState>) -> Result<impl Responder> {
     match state.product_repo.lock().await.get_all().await {
         Ok(products) => {
-            let param = functions::render::HomeParam { products };
-            let view = Some(&state.tera.clone())
-                .map(render::render_home(param))
-                .unwrap();
-            Response::Success(RawHtml(view))
+            let param = HomeParam { products };
+            let view = Result::<HomeParam>::Ok(param)
+                .map(render::render_home(&state.tera))?
+                .map_err(InternalServerError::from)?;
+            Ok(Response::Success(RawHtml(view)))
         }
-        Err(err) => Response::InternalServerError(err.cause),
+        Err(err) => Err(InternalServerError(err.cause)),
     }
 }

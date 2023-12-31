@@ -25,7 +25,6 @@ impl product::ProductRepo for ProductRepo {
             .await
             .map_err(|err| -> Error {
                 Error {
-                    code: 500,
                     cause: err.to_string(),
                     currently_on: "product get_all()".into(),
                 }
@@ -56,7 +55,6 @@ impl product::ProductRepo for ProductRepo {
                         .await
                         .map_err(|err| -> Error {
                             Error {
-                                code: 500,
                                 cause: err.to_string(),
                                 currently_on: "product update".into(),
                             }
@@ -71,7 +69,6 @@ impl product::ProductRepo for ProductRepo {
                         .await
                         .map_err(|err| -> Error {
                             Error {
-                                code: 500,
                                 cause: err.to_string(),
                                 currently_on: "product insert".into(),
                             }
@@ -92,7 +89,6 @@ impl product::ProductRepo for ProductRepo {
             .await
             .map_err(|err| -> Error {
                 Error {
-                    code: 500,
                     cause: err.to_string(),
                     currently_on: "product update".into(),
                 }
