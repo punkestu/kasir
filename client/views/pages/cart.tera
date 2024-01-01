@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include "partials/head.tera" %}
+</head>
+<body>
+	{% include "partials/header.tera" %}
+</body>
+</html>

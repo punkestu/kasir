@@ -40,4 +40,5 @@ pub type Result<T> = result::Result<T, Error>;
 pub struct AppState {
     pub product_repo: Arc<Mutex<dyn ProductRepo + Send>>,
     pub tera: Arc<Tera>,
+    pub cart_buf: Arc<Mutex<Vec<product::Product>>>,
 }

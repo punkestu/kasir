@@ -1,6 +1,6 @@
 use super::{InternalServerError, Result};
 use crate::{
-    functions::render::{self, HomeParam},
+    functions::render::{self, CartParam, HomeParam},
     models::AppState,
 };
 use rocket::{
@@ -26,4 +26,13 @@ pub async fn index(state: &State<AppState>) -> Result<impl Responder> {
         }
         Err(err) => Err(InternalServerError(err.cause)),
     }
+}
+
+#[get("/cart")]
+pub async fn cart(state: &State<AppState>) -> Result<impl Responder> {
+    let param = CartParam { items: vec![] };
+    let view = Result::<CartParam>::Ok(param)
+        .map(render::render_cart(&state.tera))?
+        .map_err(InternalServerError::from)?;
+    Ok(Response::Success(RawHtml(view)))
 }

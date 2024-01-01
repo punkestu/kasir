@@ -40,6 +40,20 @@ impl product::ProductRepo for ProductRepo {
             })
             .collect())
     }
+    async fn get_by_id(&self, id: u64) -> Result<Product> {
+        let pool = self.pool.clone();
+        let pool = pool.lock().await;
+        let product = sqlx::query("SELECT * FROM products WHERE id=?")
+            .bind(id as i64)
+            .fetch_one(&(*pool))
+            .await
+            .map_err(Error::map("get by id".into()))?;
+        Ok(Product {
+            id: Some(id),
+            name: product.get::<String, _>("name"),
+            stock: product.get::<i32, _>("stock") as u32,
+        })
+    }
     async fn save(&self, mut product: Product) -> Result<Product> {
         let pool = self.pool.clone();
         let pool = pool.lock().await;

@@ -16,4 +16,5 @@ impl Default for InternalServerError {
 
 pub mod index;
 pub mod page;
+pub mod service;
 pub type Result<T> = result::Result<T, InternalServerError>;

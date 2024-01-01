@@ -55,8 +55,8 @@ pub struct CartParam {
     pub items: Vec<u32>,
 }
 
-pub fn render_cart(tera: &Tera) -> impl Fn(&CartParam) -> Result<String, Error> + '_ {
-    move |param: &CartParam| -> Result<String, Error> {
+pub fn render_cart(tera: &Tera) -> impl Fn(CartParam) -> Result<String, Error> + '_ {
+    move |param: CartParam| -> Result<String, Error> {
         render_bootstrap(View {
             param,
             title: "Kasir",

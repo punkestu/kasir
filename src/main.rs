@@ -25,9 +25,17 @@ async fn main() -> Result<(), rocket::Error> {
         .manage(AppState {
             product_repo: Arc::from(Mutex::from(product_repo)),
             tera: Arc::from(Tera::new("client/views/**/*.tera").expect("failed to run tera")),
+            cart_buf: Arc::from(Mutex::from(vec![])),
         })
-        .mount("/", routes![routes::index::index])
+        .mount("/", routes![routes::index::index, routes::index::cart])
         .mount("/page", routes![routes::page::products])
+        .mount(
+            "/api/v1",
+            routes![
+                routes::service::set_cart_item,
+                routes::service::get_cart_items
+            ],
+        )
         .mount("/public", FileServer::from("client/public"))
         .launch()
         .await?;

@@ -19,7 +19,7 @@
     <div
       class="fixed bottom-0 w-full flex justify-center items-center h-20 bg-gradient-to-t from-gray-300 backdrop-blur-sm"
     >
-      <button class="btn-primary-md">Checkout</button>
+      <button class="btn-primary-md">Cart</button>
     </div>
     <script src="/public/script/functions.js"></script>
     <script src="/public/script/sideEffects.js"></script>
